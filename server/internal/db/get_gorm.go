@@ -32,7 +32,7 @@ func InitDB(cfg *conf.MysqlConfig) error {
 	}
 
 	// 自动迁移，GORM 会自动创建表
-	err = db.AutoMigrate(&model.KnowledgeBase{})
+	err = db.AutoMigrate(&model.KnowledgeBase{}, &model.Document{})
 	if err != nil {
 		return err
 	}

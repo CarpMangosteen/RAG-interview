@@ -6,14 +6,20 @@ import (
 )
 
 // RegisterRoutes 注册所有的路由
-func RegisterRoutes(r *gin.Engine) {
-	// 一个简单的健康检查端点
+func RegisterRoutes(r *gin.Engine, kbHandler *handler.KnowledgeBaseHandler) {
+	// 健康检查端点
 	r.GET("/ping", handler.Ping)
 
-	// 为 v1 版本的 API 创建一个路由组
-	// apiV1 := r.Group("/api/v1")
+	// v1 版本的 API 路由组
+	apiV1 := r.Group("/api/v1")
 	{
-		// 未来我们的知识库、聊天等接口都会在这里注册
-		// 例如: apiV1.POST("/kb", handler.CreateKnowledgeBase)
+		// 知识库相关的路由
+		kbRoutes := apiV1.Group("/kb")
+		{
+			kbRoutes.POST("", kbHandler.CreateKnowledgeBase)
+			// 未来可以添加其他路由，如：
+			// kbRoutes.GET("", kbHandler.ListKnowledgeBases)
+			// kbRoutes.GET("/:id", kbHandler.GetKnowledgeBase)
+		}
 	}
 }

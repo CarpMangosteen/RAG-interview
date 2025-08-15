@@ -14,3 +14,16 @@ type KnowledgeBase struct {
 func (KnowledgeBase) TableName() string {
 	return "knowledge_bases"
 }
+
+// Document 对应数据库中的 documents 表
+type Document struct {
+	gorm.Model
+	Name            string `gorm:"type:varchar(255);not null;comment:文档名称"`
+	KnowledgeBaseID uint   `gorm:"not null;comment:所属知识库ID"`
+	// 可以在这里添加更多元数据，如文件大小、类型等
+}
+
+// TableName 自定义表名
+func (Document) TableName() string {
+	return "documents"
+}
